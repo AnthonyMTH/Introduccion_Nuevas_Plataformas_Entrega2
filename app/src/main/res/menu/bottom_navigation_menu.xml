@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_inicio"
+        android:icon="@drawable/ic_inicio"
+        android:title="Inicio"
+        />
+    <item
+        android:id="@+id/navigation_edificios"
+        android:icon="@drawable/ic_edificios"
+        android:title="Edificios"
+        />
+    <item
+        android:id="@+id/navigation_mapa"
+        android:icon="@drawable/ic_mapa"
+        android:title="Mapa"
+        />
+    <item
+        android:id="@+id/navigation_perfil"
+        android:icon="@drawable/ic_perfil"
+        android:title="Perfil"
+        />
+</menu>
