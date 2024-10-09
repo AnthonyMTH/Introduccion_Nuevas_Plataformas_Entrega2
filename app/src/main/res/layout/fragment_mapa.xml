@@ -37,6 +37,7 @@
             android:padding="4dp"
             android:layout_gravity="center"
             android:layout_marginBottom="16dp"
+            android:layout_margin="40dp"
             />
 
         <TextView
@@ -48,30 +49,31 @@
             android:textSize="16sp"
             android:layout_marginBottom="8dp"
             android:gravity="center"
+            android:layout_margin="5dp"
             />
 
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:hint="Buscar"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-        app:boxBackgroundMode="outline"
-        app:boxStrokeColor="@android:color/black"
-        app:boxStrokeWidth="2dp"
-        app:boxStrokeWidthFocused="3dp">
+            android:layout_margin="20dp"
+            android:hint="Buscar"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="@android:color/black"
+            app:boxStrokeWidth="2dp"
+            app:boxStrokeWidthFocused="3dp">
 
-        <!-- AutoCompleteTextView con lista desplegable y texto centrado -->
-        <AutoCompleteTextView
-            android:id="@+id/auto_complete_txt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="none"
-            android:gravity="center"
-            android:textColor="@android:color/black"
-            android:textColorHint="#000000" />
-    </com.google.android.material.textfield.TextInputLayout>
+            <!-- AutoCompleteTextView con lista desplegable y texto centrado -->
+            <AutoCompleteTextView
+                android:id="@+id/auto_complete_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:gravity="center"
+                android:textColor="@android:color/black"
+                android:textColorHint="#000000" />
+        </com.google.android.material.textfield.TextInputLayout>
 
 
     <Button
