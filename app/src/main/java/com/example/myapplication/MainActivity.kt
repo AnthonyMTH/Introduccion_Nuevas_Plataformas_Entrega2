@@ -13,28 +13,39 @@ import com.example.myapplication.fragments.PerfilFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var bottomNavigationView: BottomNavigationView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottom_navigation_view)
+        bottomNavigationView = findViewById(R.id.bottom_navigation_view)
         bottomNavigationView.setOnNavigationItemSelectedListener { menuItem ->
-            var selectedFragment: Fragment? = null
-            when (menuItem.itemId) {
-                R.id.navigation_inicio -> selectedFragment = InicioFragment()
-                R.id.navigation_edificios -> selectedFragment = EdificiosFragment()
-                R.id.navigation_mapa -> selectedFragment = MapaFragment()
-                R.id.navigation_perfil -> selectedFragment = PerfilFragment()
+            val selectedFragment: Fragment = when (menuItem.itemId) {
+                R.id.navigation_inicio -> InicioFragment()
+                R.id.navigation_edificios -> EdificiosFragment()
+                R.id.navigation_mapa -> MapaFragment()
+                R.id.navigation_perfil -> PerfilFragment()
+                else -> InicioFragment()
             }
-            if (selectedFragment != null) {
-                supportFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, selectedFragment)
-                    .commit()
-            }
+            openFragment(selectedFragment)
             true
         }
 
-        // Set default fragment
+        // Selecciona el fragmento de inicio al iniciar la app
         bottomNavigationView.selectedItemId = R.id.navigation_inicio
     }
+
+    fun navigateToFragment(fragment: Fragment, menuItemId: Int) {
+        openFragment(fragment)
+        bottomNavigationView.selectedItemId = menuItemId
+    }
+
+    private fun openFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
 }
