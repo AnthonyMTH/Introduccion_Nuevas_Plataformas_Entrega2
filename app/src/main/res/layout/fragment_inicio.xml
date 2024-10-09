@@ -3,37 +3,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.InicioFragment">
+    tools:context=".fragments.InicioFragment"
+    android:orientation="vertical"
+    android:background="#F5F5F5">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="150dp"
+        android:background="@drawable/curved_background"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:id="@+id/tvBienvenido"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bienvenido"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp"
+            android:fontFamily="sans-serif-medium"
+            android:layout_centerInParent="true" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp"
-        android:gravity="center_horizontal"
-        android:background="#F5F5F5">
+        android:layout_marginTop="160dp"
+        android:gravity="center_horizontal">
 
-        <!-- Contenedor del mensaje de bienvenida -->
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_marginBottom="32dp"
-            android:background="#00695C"
-            android:gravity="center_horizontal"
-            android:padding="16dp">
-
-            <TextView
-                android:id="@+id/tvBienvenido"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:fontFamily="sans-serif-medium"
-                android:text="Bienvenido"
-                android:textColor="#FFFFFF"
-                android:textSize="24sp" />
-        </RelativeLayout>
-
-        <!-- Icono de usuario -->
         <ImageView
             android:layout_width="100dp"
             android:layout_height="100dp"
@@ -48,10 +45,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="¡Hola Gabriel!"
-            android:textSize="18sp"
+            android:textSize="24sp"
             android:textColor="#000000"
             android:fontFamily="sans-serif-medium"
             android:layout_marginBottom="24dp" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Arequipa, conocida como la 'Ciudad Blanca', es un tesoro de historia y cultura en el sur de Perú. Famosa por sus edificios de sillar blanco y su arquitectura colonial, la ciudad alberga edificaciones históricas que cuentan historias de épocas pasadas. Desde majestuosas catedrales hasta antiguos monasterios, explorar Arequipa es un viaje a través del tiempo, que permite valorar y conocer el legado arquitectónico y cultural que hace única a esta ciudad."
+            android:padding="16dp"
+            android:textSize="16sp"
+            android:fontFamily="sans-serif"
+            android:layout_marginBottom="24dp"/>
 
         <!-- Botón de explorar edificaciones -->
         <Button
