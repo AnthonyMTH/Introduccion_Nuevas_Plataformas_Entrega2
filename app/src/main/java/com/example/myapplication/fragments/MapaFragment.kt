@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import com.example.myapplication.R
 
 // TODO: Rename parameter arguments, choose names that match
@@ -37,6 +39,32 @@ class MapaFragment : Fragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_mapa, container, false)
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // Referencia al AutoCompleteTextView
+        val autoCompleteTextView = view.findViewById<AutoCompleteTextView>(R.id.auto_complete_txt)
+
+        // Lista de opciones para el autocompletado
+        val edificaciones = listOf("Iglesia San Francisco", "Museo Histórico", "Casona Colonial", "Monasterio Santa Catalina")
+
+        // Configuración del adaptador para el autocompletado
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, edificaciones)
+        autoCompleteTextView.setAdapter(adapter)
+
+        // Mostrar el menú desplegable al hacer clic
+        autoCompleteTextView.setOnClickListener {
+            autoCompleteTextView.showDropDown()
+        }
+
+        // Manejar la selección de un elemento para mostrarlo en el campo
+        autoCompleteTextView.setOnItemClickListener { parent, _, position, _ ->
+            val selectedItem = parent.getItemAtPosition(position) as String
+            autoCompleteTextView.setText(selectedItem, false) // Muestra el elemento seleccionado en el campo
+        }
+    }
+
 
     companion object {
         /**
