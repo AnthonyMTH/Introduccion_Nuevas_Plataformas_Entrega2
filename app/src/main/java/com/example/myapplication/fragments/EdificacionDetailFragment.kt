@@ -90,7 +90,7 @@ class EdificacionDetailFragment : Fragment() {
     companion object {
 
 
-        @JvmStatic fun newInstance(name: String, description: String, imageURL: String) =
+        @JvmStatic fun newInstance(name: String, description: String, imageURL: String ) =
                 EdificacionDetailFragment().apply {
                     arguments = Bundle().apply {
                         putString(ARG_EDIFICIO_NAME, name)

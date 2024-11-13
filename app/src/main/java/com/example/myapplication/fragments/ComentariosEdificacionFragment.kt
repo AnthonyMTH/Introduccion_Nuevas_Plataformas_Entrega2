@@ -18,7 +18,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.myapplication.R
 import com.example.myapplication.adapters.CommentAdapter
+import com.example.myapplication.models.Category
+import com.example.myapplication.models.CategoryList
 import com.example.myapplication.models.Comment
+import com.google.gson.Gson
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -67,6 +70,8 @@ class ComentariosEdificacionFragment : Fragment() {
         val recyclerViewComments = view.findViewById<RecyclerView>(R.id.comentariosRecyclerView)
 
         // Ejemplos comentarios
+        val comentarios = getCommentsForEdification(name ?: "", requireContext())
+        /*
         val comentarios: MutableList<Comment> = mutableListOf(
             Comment(author = "Juan Pérez", comment = "Este es un excelente artículo, muy informativo.", date = "22/12/2004"),
             Comment(author = "Ana Gómez", comment = "No estoy de acuerdo con algunas ideas, pero es un buen punto de partida.", date = "23/12/2004"),
@@ -74,6 +79,8 @@ class ComentariosEdificacionFragment : Fragment() {
             Comment(author = "Lucía Martínez", comment = "Me ayudó mucho, gracias por compartir.", date = "25/12/2004"),
             Comment(author = "Pedro Rodríguez", comment = "Interesante, aunque faltan algunos detalles técnicos.", date = "26/12/2004")
         )
+
+
 
         saveCommentButton.setOnClickListener {
             val comment = view.findViewById<EditText>(R.id.commentEditText)
@@ -92,7 +99,7 @@ class ComentariosEdificacionFragment : Fragment() {
 
             linearLayoutManager.scrollToPosition(0)
         }
-
+*/
 
         recyclerViewComments.layoutManager = linearLayoutManager
         recyclerViewComments.adapter = CommentAdapter(comentarios)
@@ -100,6 +107,34 @@ class ComentariosEdificacionFragment : Fragment() {
 
         return view
     }
+
+    fun getCommentsForEdification(name: String, context: Context): List<Comment> {
+        // Obtén las categorías desde el JSON
+        val categories = parseCategoriesFromJSON(context)
+
+        // Recorre las categorías y los edificios para encontrar el edificio correspondiente
+        for (category in categories) {
+            for (edifice in category.edificios) {
+                if (edifice.name == name) {
+                    return edifice.comments  // Devuelve los comentarios del edificio
+                }
+            }
+        }
+        return emptyList()  // Si no se encuentra el edificio, devuelve una lista vacía
+    }
+
+
+    private fun loadJSONFromAsset(context: Context, fileName: String): String {
+        return context.assets.open(fileName).bufferedReader().use { it.readText() }
+    }
+
+    fun parseCategoriesFromJSON(context: Context): List<Category> {
+        val json = loadJSONFromAsset(context, "data.json")
+        val gson = Gson()
+        val categoryList = gson.fromJson(json, CategoryList::class.java)
+        return categoryList.categories // Retorna solo la lista de categorías
+    }
+
 
     companion object {
 
