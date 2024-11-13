@@ -27,6 +27,7 @@ play-services-maps = { group = "com.google.android.gms", name = "play-services-m
 play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "playServicesLocation" }
 glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
+opencsv = "com.opencsv:opencsv:5.3"
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
