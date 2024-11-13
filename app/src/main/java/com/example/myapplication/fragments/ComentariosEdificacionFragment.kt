@@ -2,6 +2,7 @@ package com.example.myapplication.fragments
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +23,7 @@ import com.example.myapplication.models.Category
 import com.example.myapplication.models.CategoryList
 import com.example.myapplication.models.Comment
 import com.google.gson.Gson
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -43,6 +45,7 @@ class ComentariosEdificacionFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        copyJsonToInternalStorage()
         arguments?.let {
             name = it.getString(ARG_EDIFICIO_NAME)
             imageURL = it.getString(ARG_EDIFICIO_IMAGE)
@@ -69,37 +72,41 @@ class ComentariosEdificacionFragment : Fragment() {
         // RecyclerView
         val recyclerViewComments = view.findViewById<RecyclerView>(R.id.comentariosRecyclerView)
 
-        // Ejemplos comentarios
-        val comentarios = getCommentsForEdification(name ?: "", requireContext())
-        /*
-        val comentarios: MutableList<Comment> = mutableListOf(
-            Comment(author = "Juan Pérez", comment = "Este es un excelente artículo, muy informativo.", date = "22/12/2004"),
-            Comment(author = "Ana Gómez", comment = "No estoy de acuerdo con algunas ideas, pero es un buen punto de partida.", date = "23/12/2004"),
-            Comment(author = "Carlos Sánchez", comment = "¿Podrías ampliar la información sobre el tema?", date = "24/12/2004"),
-            Comment(author = "Lucía Martínez", comment = "Me ayudó mucho, gracias por compartir.", date = "25/12/2004"),
-            Comment(author = "Pedro Rodríguez", comment = "Interesante, aunque faltan algunos detalles técnicos.", date = "26/12/2004")
-        )
+        //  comentarios desde json
+        val comentarios = getCommentsForEdification(name ?: "", requireContext()).toMutableList()
 
 
 
         saveCommentButton.setOnClickListener {
-            val comment = view.findViewById<EditText>(R.id.commentEditText)
+            val commentEditText = view.findViewById<EditText>(R.id.commentEditText)
 
-            val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-            val currentDate = dateFormat.format(Date())
+            if (commentEditText.text.isNotEmpty()) {
+                val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                val currentDate = dateFormat.format(Date())
 
-            val newComment = Comment(author = "Me", comment = comment.text.toString(), date = currentDate)
-            comentarios.add(0,newComment)
-            (recyclerViewComments.adapter as? CommentAdapter)?.notifyItemInserted(0)
-            comment.text.clear()
+                // Crea el nuevo comentario
+                val newComment = Comment(author = "Me", comment = commentEditText.text.toString(), date = currentDate)
 
-            // Ocultar el teclado
-            val inputMethodManager = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            inputMethodManager.hideSoftInputFromWindow(comment.windowToken, 0)
+                // Añade el comentario a la lista de comentarios y actualiza el adapter
+                comentarios.add(0, newComment)
+                (recyclerViewComments.adapter as? CommentAdapter)?.notifyItemInserted(0)
 
-            linearLayoutManager.scrollToPosition(0)
+                // Limpia el campo de texto
+                commentEditText.text.clear()
+
+                // Oculta el teclado
+                val inputMethodManager = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                inputMethodManager.hideSoftInputFromWindow(commentEditText.windowToken, 0)
+
+                // Guarda los cambios en el archivo JSON
+                saveCommentsToJSON(newComment)
+
+                // Desplaza el RecyclerView al primer elemento
+                linearLayoutManager.scrollToPosition(0)
+            }
         }
-*/
+
+
 
         recyclerViewComments.layoutManager = linearLayoutManager
         recyclerViewComments.adapter = CommentAdapter(comentarios)
@@ -107,6 +114,32 @@ class ComentariosEdificacionFragment : Fragment() {
 
         return view
     }
+    private fun saveCommentsToJSON(newComment: Comment) {
+        // Asegurarse de que el archivo está en almacenamiento interno
+        copyJsonToInternalStorage()
+
+        // Leer y parsear el JSON desde almacenamiento interno
+        val json = loadJSONFromInternalStorage(requireContext(), "data.json")
+        val gson = Gson()
+        val categoryList = gson.fromJson(json, CategoryList::class.java)
+
+        // Encuentra la edificación y añade el nuevo comentario
+        categoryList.categories.forEach { category ->
+            category.edificios.find { it.name == name }?.let { edification ->
+                val updatedComments = edification.comments.toMutableList()
+                updatedComments.add(0, newComment)
+                edification.comments = updatedComments
+            }
+        }
+
+        // Guarda el JSON actualizado en almacenamiento interno
+        val updatedJson = gson.toJson(categoryList)
+        requireContext().openFileOutput("data.json", Context.MODE_PRIVATE).use {
+            it.write(updatedJson.toByteArray())
+        }
+    }
+
+
 
     fun getCommentsForEdification(name: String, context: Context): List<Comment> {
         // Obtén las categorías desde el JSON
@@ -129,10 +162,24 @@ class ComentariosEdificacionFragment : Fragment() {
     }
 
     fun parseCategoriesFromJSON(context: Context): List<Category> {
-        val json = loadJSONFromAsset(context, "data.json")
+        val json = loadJSONFromInternalStorage(context, "data.json")
         val gson = Gson()
         val categoryList = gson.fromJson(json, CategoryList::class.java)
         return categoryList.categories // Retorna solo la lista de categorías
+    }
+
+    private fun copyJsonToInternalStorage() {
+        val file = File(requireContext().filesDir, "data.json")
+        if (!file.exists()) {
+            requireContext().assets.open("data.json").use { inputStream ->
+                file.outputStream().use { outputStream ->
+                    inputStream.copyTo(outputStream)
+                }
+            }
+        }
+    }
+    private fun loadJSONFromInternalStorage(context: Context, fileName: String): String {
+        return context.openFileInput(fileName).bufferedReader().use { it.readText() }
     }
 
 
