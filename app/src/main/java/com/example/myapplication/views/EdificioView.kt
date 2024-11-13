@@ -8,6 +8,7 @@ import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.Rect
 import android.graphics.RectF
+import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -15,7 +16,11 @@ import com.example.myapplication.R
 import com.example.myapplication.fragments.AmbienteDetailFragment
 import com.example.myapplication.models.Ambiente
 
-class EdificioView(context: Context?) : View(context) {
+class EdificioView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
+) : View(context, attrs, defStyleAttr) {
 
     private val paint = Paint()
     private val ambientes = mutableListOf<Ambiente>()

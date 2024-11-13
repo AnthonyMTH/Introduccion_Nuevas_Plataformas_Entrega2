@@ -51,7 +51,7 @@ class EdificacionDetailFragment : Fragment() {
         val imageWidgetView = view.findViewById<ImageView>(R.id.edificacionImage)
         val backButton = view.findViewById<ImageButton>(R.id.backButton)
         val comentarButton = view.findViewById<Button>(R.id.btnComentar)
-
+        val mostrarPlanoButton = view.findViewById<Button>(R.id.btnMostrarPlano)
 
 
         nameTextView.text = name
@@ -63,6 +63,10 @@ class EdificacionDetailFragment : Fragment() {
 
         comentarButton.setOnClickListener {
             mostrarComentariosEdificacion(name?:"Nombre edificación", imageURL?:"url")
+        }
+
+        mostrarPlanoButton.setOnClickListener {
+            mostrarPlanoEdificacion()
         }
 
 
@@ -78,6 +82,16 @@ class EdificacionDetailFragment : Fragment() {
             name = name,
             imageURL = imageURL
         )
+
+        val activity = context as? AppCompatActivity
+        activity?.supportFragmentManager?.beginTransaction()
+            ?.replace(R.id.fragment_container, fragment)
+            ?.addToBackStack(null)
+            ?.commit()
+    }
+
+    private fun mostrarPlanoEdificacion() {
+        val fragment = EdificioMapFragment()
 
         val activity = context as? AppCompatActivity
         activity?.supportFragmentManager?.beginTransaction()
