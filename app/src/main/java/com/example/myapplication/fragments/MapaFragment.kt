@@ -1,88 +1,138 @@
 package com.example.myapplication.fragments
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import android.widget.Button
+import android.widget.Spinner
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.example.myapplication.R
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+class MapaFragment : Fragment(R.layout.fragment_mapa), OnMapReadyCallback {
+    private var map: GoogleMap? = null
+    private val LOCATION_PERMISSION_REQUEST_CODE = 1
 
-/**
- * A simple [Fragment] subclass.
- * Use the [MapaFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class MapaFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_mapa, container, false)
-    }
+    private val locations = listOf(
+        LatLng(-16.398803, -71.536865) to "Catedral de Arequipa",
+        LatLng(-16.395878, -71.533785) to "Monasterio de Santa Catalina",
+        LatLng(-16.398360, -71.536215) to "Iglesia de la Compañía de Jesús",
+        LatLng(-16.401229, -71.535762) to "Casa Tristán del Pozo",
+        LatLng(-16.404678, -71.534474) to "Monasterio de La Recoleta",
+        LatLng(-16.401897, -71.537491) to "Casa del Moral",
+        LatLng(-16.404617, -71.533947) to "Iglesia de San Francisco",
+        LatLng(-16.405124, -71.535263) to "Iglesia de Santo Domingo",
+        LatLng(-16.456549, -71.499515) to "Molino de Sabandía",
+        LatLng(-16.400691, -71.537683) to "Museo Santuarios Andinos"
+    )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
+        mapFragment?.getMapAsync(this)
 
-        // Referencia al AutoCompleteTextView
-        val autoCompleteTextView = view.findViewById<AutoCompleteTextView>(R.id.auto_complete_txt)
+        checkLocationPermission()  // verifica los permisos al iniciar
 
-        // Lista de opciones para el autocompletado
-        val edificaciones = listOf("Iglesia San Francisco", "Museo Histórico", "Casona Colonial", "Monasterio Santa Catalina")
+        // Configura el Spinner
+        val spinner = view.findViewById<Spinner>(R.id.location_spinner)
+        val locationNames = locations.map { it.second }  // Extrae solo los nombres de las ubicaciones
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, locationNames)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinner.adapter = adapter
 
-        // Configuración del adaptador para el autocompletado
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, edificaciones)
-        autoCompleteTextView.setAdapter(adapter)
+        // Listener para centrar el mapa en la ubicación seleccionada
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                val selectedLocation = locations[position].first
+                map?.animateCamera(CameraUpdateFactory.newLatLngZoom(selectedLocation, 15f))
+            }
 
-        // Mostrar el menú desplegable al hacer clic
-        autoCompleteTextView.setOnClickListener {
-            autoCompleteTextView.showDropDown()
-        }
-
-        // Manejar la selección de un elemento para mostrarlo en el campo
-        autoCompleteTextView.setOnItemClickListener { parent, _, position, _ ->
-            val selectedItem = parent.getItemAtPosition(position) as String
-            autoCompleteTextView.setText(selectedItem, false) // Muestra el elemento seleccionado en el campo
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // No hacer nada si no se selecciona ninguna opción
+            }
         }
     }
 
+    override fun onMapReady(googleMap: GoogleMap) {
+        map = googleMap
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment MapaFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            MapaFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+        // centro del mapa en Arequipa
+        val arequipa = LatLng(-16.409047, -71.537451)
+        map?.moveCamera(CameraUpdateFactory.newLatLngZoom(arequipa, 20f))
+
+        // habilita la capa de ubicación del usuario si los permisos están otorgados
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+            == PackageManager.PERMISSION_GRANTED
+        ) {
+            map?.isMyLocationEnabled = true
+        } else {
+            checkLocationPermission()
+        }
+
+        // marcadores para las ubicaciones
+        addMarkers()
+    }
+
+    private fun addMarkers() {
+        for ((location, title) in locations) {
+            map?.addMarker(MarkerOptions().position(location).title(title))
+        }
+
+        // evento al hacer clic en el marcador, se muestra nombre
+        map?.setOnMarkerClickListener { marker ->
+            marker.showInfoWindow()
+            true
+        }
+    }
+
+    private fun checkLocationPermission() {
+        // comprueba si el permiso de ubicación (ACCESS_FINE_LOCATION) ha sido otorgado
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                LOCATION_PERMISSION_REQUEST_CODE
+            )
+        } else {
+            // si el permiso ya está otorgado, habilita el boton de ubicación en el mapa
+            map?.isMyLocationEnabled = true
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        // verifica si el código de solicitud corresponde al permiso de ubicación
+        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
+            // si la solicitud de permisos tiene resultados y el permiso fue concedido
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // vuelve a comprobar si el permiso de ubicación está concedido
+                if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED
+                ) {
+                    // habilita el boton de ubicación en el mapa, permitiendo ver la ubicación actual
+                    map?.isMyLocationEnabled = true
                 }
             }
+        }
     }
 }
