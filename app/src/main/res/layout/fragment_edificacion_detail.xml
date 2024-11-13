@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#E9E9E9"
+    android:padding="16dp">
+
+    <!-- Encabezado con botón de retroceso, nombre de usuario y perfil -->
+    <LinearLayout
+        android:id="@+id/headerLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Botón de retroceso -->
+        <ImageButton
+            android:id="@+id/backButton"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="@null"
+            android:src="@drawable/baseline_arrow_back_24"
+            app:tint="#006666" />
+
+        <!-- Espacio flexible entre el botón y el nombre de usuario -->
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <!-- Nombre del usuario -->
+        <TextView
+            android:id="@+id/userName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Gabriel"
+            android:textColor="#424242"
+            android:textSize="14sp"
+            android:layout_marginEnd="8dp" />
+
+        <!-- Icono de perfil -->
+        <ImageView
+            android:id="@+id/userProfile"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/baseline_person_24"
+            app:tint="#006666" />
+
+    </LinearLayout>
+
+    <!-- Imagen de la edificación -->
+    <ImageView
+        android:id="@+id/edificacionImage"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        android:background="@drawable/rounded_corners"
+        android:scaleType="centerCrop"
+        android:src="@drawable/monasterio_arequipa_1"
+        app:layout_constraintTop_toBottomOf="@id/headerLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp" />
+
+    <!-- Título de la edificación -->
+    <TextView
+        android:id="@+id/edificacionTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Moonasterio 1"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        android:textColor="#006666"
+        app:layout_constraintTop_toBottomOf="@id/edificacionImage"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp" />
+
+    <!-- Descripción de la edificación -->
+    <TextView
+        android:id="@+id/edificacionDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="El Monasterio de Santa Catalina de Siena, o Convento de Santa Catalina, es un complejo turístico religioso ubicado en el centro histórico de Arequipa, departamento de Arequipa, Perú."
+        android:textSize="20sp"
+        android:lineSpacingExtra="4dp"
+        android:textColor="#424242"
+        android:textAlignment="viewStart"
+        android:gravity="start"
+        android:justificationMode="inter_word"
+        app:layout_constraintTop_toBottomOf="@id/edificacionTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp" />
+
+    <!-- Botones de ubicación y comentar -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/edificacionDescription"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp">
+
+        <!-- Botón Ubicación -->
+        <Button
+            android:id="@+id/btnUbicacion"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Ubicación"
+            android:backgroundTint="#006666"
+            android:textColor="#F5F5F5"
+            android:textSize="14sp"
+            android:drawablePadding="8dp"
+            android:layout_marginEnd="8dp"/>
+
+        <!-- Botón Comentar -->
+        <Button
+            android:id="@+id/btnComentar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Comentar"
+            android:backgroundTint="#006666"
+            android:textColor="#F5F5F5"
+            android:textSize="14sp"
+            android:drawablePadding="8dp"/>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+

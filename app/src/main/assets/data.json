@@ -1,0 +1,87 @@
+{
+  "categories": [
+    {
+      "name": "Iglesias",
+      "edificios": [
+        {
+          "name": "Iglesia de la Compañía de Jesús",
+          "imageURL": "https://maxbromberg.com/wp-content/uploads/2021/10/iglesia-compania-barroco-andino.jpg"
+        },
+        {
+          "name": "Catedral de Arequipa",
+          "imageURL": "https://media.tacdn.com/media/attractions-splice-spp-674x446/0b/39/7c/90.jpg"
+        }
+      ]
+    },
+    {
+      "name": "Casonas",
+      "edificios": [
+        {
+          "name": "Casa del Moral",
+          "imageURL": "https://encuentro.pe/wp-content/uploads/2017/09/14-15aAA.jpg"
+        },
+        {
+          "name": "Casa Goyeneche",
+          "imageURL": "https://www.viajaraperu.com/wp-content/uploads/2009/04/palacio-goyeneche-290x194.jpg"
+        }
+      ]
+    },
+    {
+      "name": "Monasterios",
+      "edificios": [
+        {
+          "name": "Monasterio de Santa Catalina",
+          "imageURL": "https://www.peru.travel/Contenido/General/Imagen/es/564/1.1/santa-catalina.jpg"
+        },
+        {
+          "name": "Monasterio de la Recoleta",
+          "imageURL": "https://i.bssl.es/porconocer/2015/07/recoleta.jpg"
+        }
+      ]
+    },
+    {
+      "name": "Plazas",
+      "edificios": [
+        {
+          "name": "Plaza de Armas",
+          "imageURL": "https://blogs.incarail.com/hubfs/Plaza%20de%20armas%20de%20Arequipa%20-%201.jpg"
+        },
+        {
+          "name": "Plaza San Francisco",
+          "imageURL": "https://i.pinimg.com/736x/35/8d/c3/358dc32dc8f92d5bf95e724e626eb6d5.jpg"
+        }
+      ]
+    },
+    {
+      "name": "Museos",
+      "edificios": [
+        {
+          "name": "Museo Santuarios Andinos",
+          "imageURL": "https://ucsm.dev.pinkxel.com/wp-content/uploads/2021/04/exterior@2x-edited-1-1024x639.jpg"
+        },
+        {
+          "name": "Museo de Arte Virreinal de Santa Teresa",
+          "imageURL": "https://elbuho.pe/wp-content/uploads/2022/11/MUSEO-DE-ARTE-VIRREINAL.jpg"
+        }
+      ]
+    },
+    {
+      "name": "Teatros",
+      "edificios": [
+        {
+          "name": "Teatro Municipal",
+          "imageURL": "https://diarioelpueblo.com.pe/wp-content/uploads/2023/05/IMG-20230530-WA0106.jpg"
+        }
+      ]
+    },
+    {
+      "name": "Puentes",
+      "edificios": [
+        {
+          "name": "Puente Grau",
+          "imageURL": "https://www.machupicchuterra.com/wp-content/uploads/puente-bolognesi-arequipa-full.jpg"
+        }
+      ]
+    }
+  ]
+}
