@@ -1,5 +1,6 @@
 package com.example.myapplication.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,6 +29,9 @@ class EdificiosAdapter(private val edificios: List<Edificio>) : RecyclerView.Ada
         val edificio = edificios[position]
         holder.nameTextView.text = edificio.name
         Glide.with(holder.itemView.context).load(edificio.imageURL).into(holder.imageView)
+        holder.viewButton.setOnClickListener {
+            Log.i("Info", "Clicked ${holder.nameTextView.text}")
+        }
         //holder.imageView.setImageResource(edificio.imageResource)
         // Agregar lógica de click en el botón, si es necesario
     }
