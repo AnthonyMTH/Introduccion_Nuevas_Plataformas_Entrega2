@@ -43,7 +43,7 @@ class EdificiosAdapter(private val edificios: List<Edificio>) : RecyclerView.Ada
 
         val fragment = EdificacionDetailFragment.newInstance(
             name = edificio.name,
-            description = "midecripcion",
+            description = edificio.description,
             imageURL = edificio.imageURL
         )
 
