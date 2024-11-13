@@ -5,11 +5,37 @@
       "edificios": [
         {
           "name": "Iglesia de la Compañía de Jesús",
-          "imageURL": "https://maxbromberg.com/wp-content/uploads/2021/10/iglesia-compania-barroco-andino.jpg"
+          "imageURL": "https://maxbromberg.com/wp-content/uploads/2021/10/iglesia-compania-barroco-andino.jpg",
+          "comments": [
+            {
+              "author": "José",
+              "comment": "primer comentario para iglesia compañia de jesus",
+              "date": "22/12/2024"
+            },
+            {
+              "author": "José",
+              "comment": "segundo comentario para iglesia compañia de jesus",
+              "date": "22/12/2024"
+            }
+          ],
+          "description": "Iglesia barroca construida en el siglo XVII, considerada una de las más emblemáticas de Arequipa."
         },
         {
           "name": "Catedral de Arequipa",
-          "imageURL": "https://media.tacdn.com/media/attractions-splice-spp-674x446/0b/39/7c/90.jpg"
+          "imageURL": "https://media.tacdn.com/media/attractions-splice-spp-674x446/0b/39/7c/90.jpg",
+          "comments": [
+            {
+              "author": "Gabriel",
+              "comment": "primer comentario para catedral de arequipa",
+              "date": "14/12/2024"
+            },
+            {
+              "author": "Gabriel",
+              "comment": "segundo comentario para catedral de arequipa",
+              "date": "14/12/2024"
+            }
+          ],
+          "description": "Imponente catedral ubicada en la Plaza de Armas de Arequipa, construida en sillería blanca, un símbolo de la ciudad."
         }
       ]
     },
@@ -18,11 +44,21 @@
       "edificios": [
         {
           "name": "Casa del Moral",
-          "imageURL": "https://encuentro.pe/wp-content/uploads/2017/09/14-15aAA.jpg"
+          "imageURL": "https://encuentro.pe/wp-content/uploads/2017/09/14-15aAA.jpg",
+          "comments": [],
+          "description": "Una de las casonas más antiguas de Arequipa, con una rica arquitectura colonial y hermosos jardines."
         },
         {
           "name": "Casa Goyeneche",
-          "imageURL": "https://www.viajaraperu.com/wp-content/uploads/2009/04/palacio-goyeneche-290x194.jpg"
+          "imageURL": "https://www.viajaraperu.com/wp-content/uploads/2009/04/palacio-goyeneche-290x194.jpg",
+          "comments": [
+            {
+              "author": "María",
+              "comment": "Hermosa casa con una gran historia.",
+              "date": "15/11/2024"
+            }
+          ],
+          "description": "Casa histórica de estilo barroco, famosa por su arquitectura y su vinculación con la nobleza arequipeña."
         }
       ]
     },
@@ -31,11 +67,21 @@
       "edificios": [
         {
           "name": "Monasterio de Santa Catalina",
-          "imageURL": "https://www.peru.travel/Contenido/General/Imagen/es/564/1.1/santa-catalina.jpg"
+          "imageURL": "https://www.peru.travel/Contenido/General/Imagen/es/564/1.1/santa-catalina.jpg",
+          "comments": [],
+          "description": "Un complejo conventual único en su tipo, que recrea una pequeña ciudad con calles, plazas y coloridas fachadas."
         },
         {
           "name": "Monasterio de la Recoleta",
-          "imageURL": "https://i.bssl.es/porconocer/2015/07/recoleta.jpg"
+          "imageURL": "https://i.bssl.es/porconocer/2015/07/recoleta.jpg",
+          "comments": [
+            {
+              "author": "Juan",
+              "comment": "Lugar muy tranquilo para meditar.",
+              "date": "10/11/2024"
+            }
+          ],
+          "description": "Un monasterio tranquilo y apartado, conocido por su arquitectura colonial y su hermosa iglesia."
         }
       ]
     },
@@ -44,11 +90,21 @@
       "edificios": [
         {
           "name": "Plaza de Armas",
-          "imageURL": "https://blogs.incarail.com/hubfs/Plaza%20de%20armas%20de%20Arequipa%20-%201.jpg"
+          "imageURL": "https://blogs.incarail.com/hubfs/Plaza%20de%20armas%20de%20Arequipa%20-%201.jpg",
+          "comments": [
+            {
+              "author": "Luis",
+              "comment": "Es el corazón de la ciudad, siempre llena de vida.",
+              "date": "12/11/2024"
+            }
+          ],
+          "description": "La plaza principal de Arequipa, rodeada de majestuosos edificios coloniales y considerada el centro neurálgico de la ciudad."
         },
         {
           "name": "Plaza San Francisco",
-          "imageURL": "https://i.pinimg.com/736x/35/8d/c3/358dc32dc8f92d5bf95e724e626eb6d5.jpg"
+          "imageURL": "https://i.pinimg.com/736x/35/8d/c3/358dc32dc8f92d5bf95e724e626eb6d5.jpg",
+          "comments": [],
+          "description": "Una plaza tranquila, ubicada junto a la iglesia de San Francisco, ideal para paseos relajados."
         }
       ]
     },
@@ -57,11 +113,21 @@
       "edificios": [
         {
           "name": "Museo Santuarios Andinos",
-          "imageURL": "https://ucsm.dev.pinkxel.com/wp-content/uploads/2021/04/exterior@2x-edited-1-1024x639.jpg"
+          "imageURL": "https://ucsm.dev.pinkxel.com/wp-content/uploads/2021/04/exterior@2x-edited-1-1024x639.jpg",
+          "comments": [
+            {
+              "author": "Pedro",
+              "comment": "Impresionante museo, una joya de Arequipa.",
+              "date": "10/12/2024"
+            }
+          ],
+          "description": "Museo dedicado a la conservación de artefactos arqueológicos, famoso por albergar la momia Juanita, una importante figura inca."
         },
         {
           "name": "Museo de Arte Virreinal de Santa Teresa",
-          "imageURL": "https://elbuho.pe/wp-content/uploads/2022/11/MUSEO-DE-ARTE-VIRREINAL.jpg"
+          "imageURL": "https://elbuho.pe/wp-content/uploads/2022/11/MUSEO-DE-ARTE-VIRREINAL.jpg",
+          "comments": [],
+          "description": "Un museo con una colección impresionante de arte virreinal, destacando los detalles del período colonial en Arequipa."
         }
       ]
     },
@@ -70,7 +136,15 @@
       "edificios": [
         {
           "name": "Teatro Municipal",
-          "imageURL": "https://diarioelpueblo.com.pe/wp-content/uploads/2023/05/IMG-20230530-WA0106.jpg"
+          "imageURL": "https://diarioelpueblo.com.pe/wp-content/uploads/2023/05/IMG-20230530-WA0106.jpg",
+          "comments": [
+            {
+              "author": "Carla",
+              "comment": "Un teatro histórico, con una programación muy variada.",
+              "date": "01/11/2024"
+            }
+          ],
+          "description": "Un teatro culturalmente importante, con una rica historia y una variada programación de obras teatrales y conciertos."
         }
       ]
     },
@@ -79,7 +153,9 @@
       "edificios": [
         {
           "name": "Puente Grau",
-          "imageURL": "https://www.machupicchuterra.com/wp-content/uploads/puente-bolognesi-arequipa-full.jpg"
+          "imageURL": "https://www.machupicchuterra.com/wp-content/uploads/puente-bolognesi-arequipa-full.jpg",
+          "comments": [],
+          "description": "Un puente histórico que conecta la ciudad con el sur, destacado por su imponente estructura y vistas panorámicas."
         }
       ]
     }
