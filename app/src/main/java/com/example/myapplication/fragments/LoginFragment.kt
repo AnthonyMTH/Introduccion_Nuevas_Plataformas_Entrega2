@@ -1,11 +1,20 @@
 package com.example.myapplication.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
+import com.example.myapplication.MainActivity
 import com.example.myapplication.R
+import com.example.myapplication.models.User
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import java.io.File
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -36,6 +45,54 @@ class LoginFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_login, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val usernameEditText: EditText = view.findViewById(R.id.loginUsername)
+        val passwordEditText: EditText = view.findViewById(R.id.loginPassword)
+        val loginButton: Button = view.findViewById(R.id.loginConfirmBtn)
+
+        // Configurar el botón de inicio de sesión
+        loginButton.setOnClickListener {
+            val username = usernameEditText.text.toString()
+            val password = passwordEditText.text.toString()
+
+            // Verificar las credenciales
+            if (isValidUser(username, password)) {
+
+                // Iniciar MainActivity
+                val intent = Intent(context, MainActivity::class.java)
+                startActivity(intent)
+                requireActivity().finish() // Cerrar la actividad de login
+            } else {
+                // Si las credenciales no son correctas
+                Toast.makeText(context, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    // Función para verificar si las credenciales del usuario son correctas
+    private fun isValidUser(username: String, password: String): Boolean {
+        // Leer el archivo JSON y convertirlo en una lista de usuarios
+        val usersList = getUsersFromFile()
+
+        // Buscar si el usuario y contraseña coinciden
+        return usersList.any { it.username == username && it.password == password }
+    }
+
+    private fun getUsersFromFile(): List<User> {
+        val file = File(requireContext().filesDir, "users.json")
+        if (!file.exists()) {
+            // Si el archivo no existe, significa que no hay usuarios registrados.
+            return emptyList()
+        }
+        // Si el archivo existe, lo leemos y lo deserializamos
+        val json = file.readText()
+        val gson = Gson()
+        val type = object : TypeToken<List<User>>() {}.type
+        return gson.fromJson(json, type)
     }
 
     companion object {

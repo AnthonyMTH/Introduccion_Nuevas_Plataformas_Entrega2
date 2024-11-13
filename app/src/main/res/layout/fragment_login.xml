@@ -55,7 +55,7 @@
 
 
             <EditText
-                android:id="@+id/editTextText"
+                android:id="@+id/loginUsername"
                 android:layout_width="300dp"
                 android:layout_height="48dp"
                 android:inputType="text"
@@ -65,7 +65,7 @@
                 android:layout_marginTop="30dp"/>
 
             <EditText
-                android:id="@+id/editTextText2"
+                android:id="@+id/loginPassword"
                 android:layout_width="300dp"
                 android:layout_height="48dp"
                 android:inputType="text"
@@ -74,7 +74,7 @@
                 android:layout_marginBottom="40dp"/>
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/loginConfirmBtn"
                 android:layout_width="180dp"
                 android:layout_height="wrap_content"
                 android:text="Iniciar Sesión"
