@@ -1,6 +1,7 @@
 package com.example.myapplication.fragments
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -16,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.myapplication.R
 import com.example.myapplication.models.Edificio
+import com.example.myapplication.services.AudioService
 
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_EDIFICIO_NAME = "edificio"
@@ -32,6 +34,9 @@ class EdificacionDetailFragment : Fragment() {
     private var description: String? = null
     private var imageURL: String? = null
 
+    private var isPaused = false
+    private var isPlaying = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -39,6 +44,8 @@ class EdificacionDetailFragment : Fragment() {
             description = it.getString(ARG_EDIFICIO_DESCRIPTION)
             imageURL = it.getString(ARG_EDIFICIO_IMAGE)
         }
+
+
 
     }
 
@@ -52,13 +59,18 @@ class EdificacionDetailFragment : Fragment() {
         val backButton = view.findViewById<ImageButton>(R.id.backButton)
         val comentarButton = view.findViewById<Button>(R.id.btnComentar)
         val mostrarPlanoButton = view.findViewById<Button>(R.id.btnMostrarPlano)
-
+        val playPause = view.findViewById<ImageButton>(R.id.btnPlayPause)
 
         nameTextView.text = name
         descriptionTextView.text = description
 
         backButton.setOnClickListener {
             activity?.supportFragmentManager?.popBackStack()
+            val intent = Intent(requireContext(), AudioService::class.java)
+                intent.action = "STOP"
+                requireActivity().startService(intent)
+                isPlaying = false
+                isPaused = false
         }
 
         comentarButton.setOnClickListener {
@@ -69,6 +81,28 @@ class EdificacionDetailFragment : Fragment() {
             mostrarPlanoEdificacion()
         }
 
+        playPause.setOnClickListener {
+            val intent = Intent(requireContext(), AudioService::class.java)
+            when {
+                !isPlaying -> {
+                    intent.action = "START"
+                    playPause.setImageResource(R.drawable.pause_icon)
+                    isPlaying = true
+                    isPaused = false
+                }
+                isPaused -> {
+                    intent.action = "RESUME"
+                    playPause.setImageResource(R.drawable.pause_icon)
+                    isPaused = false
+                }
+                else -> {
+                    intent.action = "PAUSE"
+                    playPause.setImageResource(R.drawable.play_icon)
+                    isPaused = true
+                }
+            }
+            requireActivity().startService(intent)
+        }
 
 
         Glide.with(requireContext()).load(imageURL).into(imageWidgetView)

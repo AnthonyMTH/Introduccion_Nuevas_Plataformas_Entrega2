@@ -102,9 +102,9 @@
 
     <!-- Botones de ubicación y comentar -->
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:gravity="center"
         app:layout_constraintTop_toBottomOf="@id/edificacionDescription"
         app:layout_constraintStart_toStartOf="parent"
@@ -112,42 +112,69 @@
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp">
 
-        <!-- Botón Ubicación -->
-        <Button
-            android:id="@+id/btnUbicacion"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Ubicación"
-            android:backgroundTint="#006666"
-            android:textColor="#F5F5F5"
-            android:textSize="14sp"
-            android:drawablePadding="8dp"
-            android:layout_marginEnd="8dp"/>
+            android:orientation="horizontal"
+            >
+            <!-- Botón Comentar -->
+            <Button
+                android:id="@+id/btnUbicacion"
+                android:layout_width="wrap_content"
+                android:layout_height="55dp"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:backgroundTint="#006666"
+                android:drawablePadding="8dp"
+                android:text="Ubicación"
+                android:textColor="#F5F5F5"
+                android:textSize="14sp" />
 
-        <!-- Botón Comentar -->
-        <Button
-            android:id="@+id/btnComentar"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Comentar"
-            android:backgroundTint="#006666"
-            android:textColor="#F5F5F5"
-            android:textSize="14sp"
-            android:drawablePadding="8dp"
-            android:layout_marginEnd="8dp"/>
+            <Button
+                android:id="@+id/btnComentar"
+                android:layout_width="wrap_content"
+                android:layout_height="55dp"
+                android:layout_weight="1"
+                android:text="Comentar"
+                android:backgroundTint="#006666"
+                android:textColor="#F5F5F5"
+                android:textSize="14sp"
+                />
 
-        <Button
-            android:id="@+id/btnMostrarPlano"
-            android:layout_width="0dp"
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Mostrar plano"
-            android:backgroundTint="#006666"
-            android:textColor="#F5F5F5"
-            android:textSize="14sp"
-            android:drawablePadding="8dp"/>
+            android:orientation="horizontal"
+            >
+            <Button
+                android:id="@+id/btnMostrarPlano"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="55dp"
+                android:text="Mostrar plano"
+                android:backgroundTint="#006666"
+                android:textColor="#F5F5F5"
+                android:textSize="14sp"
+                android:layout_marginRight="8dp"
+                />
+
+            <ImageButton
+                android:id="@+id/btnPlayPause"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="50dp"
+                android:src="@drawable/play_icon"
+                android:background="@drawable/play_button"
+                android:contentDescription="Play"
+             />
+
+
+        </LinearLayout>
+
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
