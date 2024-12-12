@@ -51,6 +51,21 @@ class EdificacionDetailFragment : Fragment() {
 
 
     }
+    override fun onStart() {
+        super.onStart()
+        val intent = Intent(requireContext(), AudioService::class.java).apply {
+            action = "HIDE_NOTIFICATION"
+        }
+        requireActivity().startService(intent)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        val intent = Intent(requireContext(), AudioService::class.java).apply {
+            action = "SHOW_NOTIFICATION"
+        }
+        requireActivity().startService(intent)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -90,6 +105,7 @@ class EdificacionDetailFragment : Fragment() {
                 !isPlaying -> {
                     intent.action = "START"
                     intent.putExtra("SONG_NAME", songName)
+                    intent.putExtra("EDIFICATION_NAME", name)
                     playPause.setImageResource(R.drawable.pause_icon)
                     isPlaying = true
                     isPaused = false

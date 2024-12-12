@@ -22,6 +22,7 @@ class AudioService : Service() {
     private val TAG = "AudioService"
     private var isPaused = false
     private val CHANNEL_ID = "AudioChannel"
+    private var edificationNameToNotification: String? = ""
 
     override fun onCreate() {
         super.onCreate()
@@ -32,6 +33,7 @@ class AudioService : Service() {
         when (intent?.action) {
             "START" -> {
                 val audioName = intent.getStringExtra("SONG_NAME")
+                edificationNameToNotification = intent.getStringExtra("EDIFICATION_NAME")
                 if (audioName != null) {
                     startMusic(audioName)
                 } else {
@@ -118,7 +120,6 @@ class AudioService : Service() {
     }
 
     private fun showNotification() {
-
         val intent = Intent(this, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
         }
@@ -129,19 +130,19 @@ class AudioService : Service() {
             intent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
-
         val notification: Notification = NotificationCompat.Builder(this, CHANNEL_ID)
-            .setContentTitle("Reproduciendo música")
-            .setContentText("La música está en reproducción")
+            .setContentTitle("Reproduciendo audio de $edificationNameToNotification")
+            .setContentText("Audio está en reproducción")
             .setAutoCancel(false)
             .setOngoing(true)
+            .setSmallIcon(R.drawable.play_icon)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setCategory(NotificationCompat.CATEGORY_SERVICE)
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
             .setContentIntent(pendingIntent)
             .build()
-
-        startForeground(1, notification)
+        val notificationId = System.currentTimeMillis().toInt()
+        startForeground(notificationId, notification)
         Log.d(TAG, "Show Notification")
     }
 
@@ -150,7 +151,7 @@ class AudioService : Service() {
 
             val channel = NotificationChannel(
                 CHANNEL_ID,
-                "Music Service Channel",
+                "Audio Service Channel",
                 NotificationManager.IMPORTANCE_HIGH
             )
             channel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
