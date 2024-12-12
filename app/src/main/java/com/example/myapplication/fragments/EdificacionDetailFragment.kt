@@ -23,6 +23,7 @@ import com.example.myapplication.services.AudioService
 private const val ARG_EDIFICIO_NAME = "edificio"
 private const val ARG_EDIFICIO_DESCRIPTION = "descripcionEdificio"
 private const val ARG_EDIFICIO_IMAGE = "imagenEdificio"
+private const val ARG_EDIFICIO_SONG_NAME = "songNameEdificio"
 
 /**
  * A simple [Fragment] subclass.
@@ -33,6 +34,7 @@ class EdificacionDetailFragment : Fragment() {
     private var name: String? = null
     private var description: String? = null
     private var imageURL: String? = null
+    private var songName: String? = null
 
     private var isPaused = false
     private var isPlaying = false
@@ -43,6 +45,7 @@ class EdificacionDetailFragment : Fragment() {
             name = it.getString(ARG_EDIFICIO_NAME)
             description = it.getString(ARG_EDIFICIO_DESCRIPTION)
             imageURL = it.getString(ARG_EDIFICIO_IMAGE)
+            songName = it.getString(ARG_EDIFICIO_SONG_NAME)
         }
 
 
@@ -52,7 +55,7 @@ class EdificacionDetailFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_edificacion_detail, container, false)
-
+        Log.d("namesong","${songName}" )
         val nameTextView = view.findViewById<TextView>(R.id.edificacionTitle)
         val descriptionTextView = view.findViewById<TextView>(R.id.edificacionDescription)
         val imageWidgetView = view.findViewById<ImageView>(R.id.edificacionImage)
@@ -86,6 +89,7 @@ class EdificacionDetailFragment : Fragment() {
             when {
                 !isPlaying -> {
                     intent.action = "START"
+                    intent.putExtra("SONG_NAME", songName)
                     playPause.setImageResource(R.drawable.pause_icon)
                     isPlaying = true
                     isPaused = false
@@ -138,12 +142,13 @@ class EdificacionDetailFragment : Fragment() {
     companion object {
 
 
-        @JvmStatic fun newInstance(name: String, description: String, imageURL: String ) =
+        @JvmStatic fun newInstance(name: String, description: String, imageURL: String, songName: String ) =
                 EdificacionDetailFragment().apply {
                     arguments = Bundle().apply {
                         putString(ARG_EDIFICIO_NAME, name)
                         putString(ARG_EDIFICIO_DESCRIPTION, description)
                         putString(ARG_EDIFICIO_IMAGE, imageURL)
+                        putString(ARG_EDIFICIO_SONG_NAME, songName)
                     }
                 }
     }

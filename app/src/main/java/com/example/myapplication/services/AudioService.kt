@@ -30,7 +30,14 @@ class AudioService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         when (intent?.action) {
-            "START" -> startMusic()
+            "START" -> {
+                val audioName = intent.getStringExtra("SONG_NAME")
+                if (audioName != null) {
+                    startMusic(audioName)
+                } else {
+                    Log.e(TAG, "No se proporcionó el nombre del audio")
+                }
+            }
             "STOP" -> stopMusic()
             "RESUME" -> resumeMusic()
             "PAUSE" -> pauseMusic()
@@ -40,13 +47,41 @@ class AudioService : Service() {
         }
         return START_STICKY
     }
-
+    /*
     private fun startMusic() {
         if (mediaPlayer == null) {
             mediaPlayer = MediaPlayer.create(this, R.raw.iglesia_compania_jesus)
             mediaPlayer?.isLooping = true
             mediaPlayer?.start()
             Log.d(TAG, "Reproducción iniciada")
+        }
+    }*/
+    private fun startMusic(audioName: String) {
+        val resId = getResourceIdByName(audioName)
+        Log.d("ResId", resId.toString())
+        if (resId != null) {
+            if (mediaPlayer == null) {
+                mediaPlayer = MediaPlayer.create(this, resId)
+                mediaPlayer?.isLooping = true
+                mediaPlayer?.start()
+                Log.d(TAG, "Reproducción iniciada: $audioName")
+            }
+        } else {
+            Log.e(TAG, "El recurso $audioName no existe")
+        }
+    }
+    private fun getResourceIdByName(resourceName: String): Int? {
+        return try {
+            val id = resources.getIdentifier(resourceName, "raw", packageName)
+
+            if (id.toString() == "0") {
+                return resources.getIdentifier("audio_not_found", "raw", packageName)
+            }
+
+            return id
+        } catch (e: Exception) {
+            resources.getIdentifier("audio_not_found", "raw", packageName)
+            // null
         }
     }
 

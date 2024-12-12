@@ -44,7 +44,8 @@ class EdificiosAdapter(private val edificios: List<Edificio>) : RecyclerView.Ada
         val fragment = EdificacionDetailFragment.newInstance(
             name = edificio.name,
             description = edificio.description,
-            imageURL = edificio.imageURL
+            imageURL = edificio.imageURL,
+            songName = edificio.songName
         )
 
         val activity = context as? AppCompatActivity
