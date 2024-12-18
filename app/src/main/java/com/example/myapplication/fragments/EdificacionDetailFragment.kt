@@ -131,7 +131,8 @@ class EdificacionDetailFragment : Fragment() {
     }
 
     private fun mostrarPlanoEdificacion() {
-        val fragment = EdificioMapFragment()
+        val nombreEdificacion = name.toString()
+        val fragment = EdificioMapFragment.newInstance(nombreEdificacion)
 
         val activity = context as? AppCompatActivity
         activity?.supportFragmentManager?.beginTransaction()

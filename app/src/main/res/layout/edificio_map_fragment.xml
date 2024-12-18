@@ -5,18 +5,49 @@
     android:layout_height="match_parent"
     tools:context=".fragments.EdificioMapFragment">
 
-    <Button
-        android:id="@+id/btn_volver"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Volver"
-        android:layout_gravity="top|start"
-        android:layout_margin="16dp" />
 
-    <com.example.myapplication.views.EdificioView
-        android:id="@+id/edificioView"
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="56dp" />
+        android:orientation="vertical"
+        android:padding="16dp">
 
+        <Button
+            android:id="@+id/btn_volver"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Volver"
+            android:layout_gravity="top|start"
+            android:layout_margin="16dp" />
+
+        <!-- Título de la edificación -->
+        <TextView
+            android:id="@+id/edificacionTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Moonasterio 1"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="#006666"
+            android:layout_marginTop="16dp" />
+
+        <com.example.myapplication.views.EdificioView
+            android:id="@+id/edificioView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="56dp" />
+    </LinearLayout>
+
+    <!-- Texto de aviso cuando no se carga el mapa -->
+    <TextView
+        android:id="@+id/tv_no_map"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        android:layout_gravity="center"
+        />
 </FrameLayout>
