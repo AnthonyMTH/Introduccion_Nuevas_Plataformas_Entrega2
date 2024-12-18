@@ -120,6 +120,11 @@ class AudioService : Service() {
     }
 
     private fun showNotification() {
+
+        if (mediaPlayer?.isPlaying == false || mediaPlayer?.isPlaying == null) {
+            return
+        }
+
         val intent = Intent(this, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
         }

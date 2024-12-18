@@ -51,21 +51,7 @@ class EdificacionDetailFragment : Fragment() {
 
 
     }
-    override fun onStart() {
-        super.onStart()
-        val intent = Intent(requireContext(), AudioService::class.java).apply {
-            action = "HIDE_NOTIFICATION"
-        }
-        requireActivity().startService(intent)
-    }
 
-    override fun onStop() {
-        super.onStop()
-        val intent = Intent(requireContext(), AudioService::class.java).apply {
-            action = "SHOW_NOTIFICATION"
-        }
-        requireActivity().startService(intent)
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {

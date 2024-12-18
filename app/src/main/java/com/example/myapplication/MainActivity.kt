@@ -1,6 +1,8 @@
 package com.example.myapplication
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -10,6 +12,7 @@ import com.example.myapplication.fragments.EdificiosFragment
 import com.example.myapplication.fragments.InicioFragment
 import com.example.myapplication.fragments.MapaFragment
 import com.example.myapplication.fragments.PerfilFragment
+import com.example.myapplication.services.AudioService
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
@@ -40,6 +43,23 @@ class MainActivity : AppCompatActivity() {
         openFragment(fragment)
         bottomNavigationView.selectedItemId = menuItemId
     }
+
+    override fun onStart() {
+        super.onStart()
+        val intent = Intent(this, AudioService::class.java).apply {
+            action = "HIDE_NOTIFICATION"
+        }
+        startService(intent)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        val intent = Intent(this, AudioService::class.java).apply {
+            action = "SHOW_NOTIFICATION"
+        }
+        startService(intent)
+    }
+
 
     private fun openFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
