@@ -4,4 +4,9 @@
        <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
     </style>
+    <style name="AppTheme" parent="Theme.MyApplication">
+        <item name="colorPrimary">#006666</item>
+        <item name="colorPrimaryDark">#005252</item>
+        <item name="colorAccent">#00b3b3</item>
+    </style>
 </resources>
