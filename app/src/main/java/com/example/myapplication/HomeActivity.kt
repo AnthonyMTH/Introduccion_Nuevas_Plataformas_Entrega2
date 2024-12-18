@@ -9,12 +9,24 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.room.Room
+import com.example.myapplication.data.database.AppDatabase
 import com.example.myapplication.fragments.HomeFragment
 
 class HomeActivity : AppCompatActivity() {
+    lateinit var db: AppDatabase
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        // Inicializar la base de datos
+        db = Room.databaseBuilder(
+            applicationContext,
+            AppDatabase::class.java,
+            "app_database"
+        ).build()
+
         setContentView(R.layout.activity_home)
         // Verificar si la versión de Android es 13 o superior
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {

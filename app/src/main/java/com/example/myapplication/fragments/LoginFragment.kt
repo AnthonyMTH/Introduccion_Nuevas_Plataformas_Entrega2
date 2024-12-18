@@ -10,10 +10,15 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import com.example.myapplication.MainActivity
+import com.example.myapplication.MyApp
 import com.example.myapplication.R
 import com.example.myapplication.models.User
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 
 // TODO: Rename parameter arguments, choose names that match
@@ -59,59 +64,26 @@ class LoginFragment : Fragment() {
             val username = usernameEditText.text.toString()
             val password = passwordEditText.text.toString()
 
-            // Verificar las credenciales
-            if (isValidUser(username, password)) {
-
-                // Iniciar MainActivity
-                val intent = Intent(context, MainActivity::class.java)
-                startActivity(intent)
-                requireActivity().finish() // Cerrar la actividad de login
-            } else {
-                // Si las credenciales no son correctas
-                Toast.makeText(context, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show()
+            if (username.isEmpty() || password.isEmpty()) {
+                Toast.makeText(context, "Por favor ingresa tus credenciales", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
-        }
-    }
 
-    // Función para verificar si las credenciales del usuario son correctas
-    private fun isValidUser(username: String, password: String): Boolean {
-        // Leer el archivo JSON y convertirlo en una lista de usuarios
-        val usersList = getUsersFromFile()
-
-        // Buscar si el usuario y contraseña coinciden
-        return usersList.any { it.username == username && it.password == password }
-    }
-
-    private fun getUsersFromFile(): List<User> {
-        val file = File(requireContext().filesDir, "users.json")
-        if (!file.exists()) {
-            // Si el archivo no existe, significa que no hay usuarios registrados.
-            return emptyList()
-        }
-        // Si el archivo existe, lo leemos y lo deserializamos
-        val json = file.readText()
-        val gson = Gson()
-        val type = object : TypeToken<List<User>>() {}.type
-        return gson.fromJson(json, type)
-    }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment LoginFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            LoginFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+            // Validar las credenciales con la base de datos
+            CoroutineScope(Dispatchers.IO).launch {
+                val user = MyApp.database.usuarioDao().getUserByCredentials(username, password)
+                withContext(Dispatchers.Main) {
+                    if (user != null) {
+                        Toast.makeText(context, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show()
+                        val intent = Intent(context, MainActivity::class.java)
+                        startActivity(intent)
+                        requireActivity().finish()
+                    } else {
+                        Toast.makeText(context, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
+        }
     }
+
 }

@@ -13,6 +13,9 @@ playServicesMaps = "19.0.0"
 playServicesLocation = "21.3.0"
 glide = "4.14.2"
 gson = "2.11.0"
+roomCommon = "2.6.1"
+roomKtx = "2.6.1"
+room = "2.5.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -28,6 +31,9 @@ play-services-location = { group = "com.google.android.gms", name = "play-servic
 glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 opencsv = "com.opencsv:opencsv:5.3"
+androidx-room-common = { group = "androidx.room", name = "room-common", version.ref = "roomCommon" }
+androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "roomKtx" }
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
