@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("com.google.devtools.ksp") version "1.9.0-1.0.11"
 }
 
 android {
@@ -50,4 +51,7 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     implementation(libs.opencsv)
+    ksp("androidx.room:room-compiler:2.5.2")
+    implementation(libs.androidx.room.common)
+    implementation(libs.androidx.room.ktx)
 }

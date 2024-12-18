@@ -10,11 +10,18 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import com.example.myapplication.HomeActivity
 import com.example.myapplication.MainActivity
+import com.example.myapplication.MyApp
 import com.example.myapplication.R
+import com.example.myapplication.data.local.entities.Usuario
 import com.example.myapplication.models.User
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 
 // TODO: Rename parameter arguments, choose names that match
@@ -63,60 +70,27 @@ class RegisterFragment : Fragment() {
             val password = passwordEditText.text.toString()
             val email = emailEditText.text.toString()
 
-            // Leer los usuarios existentes
-            val users = getUsersFromFile(requireContext())
+            // Verificar si el usuario ya existe en la base de datos
+            CoroutineScope(Dispatchers.IO).launch {
+                val existingUser = MyApp.database.usuarioDao().getUsuarioByEmail(email)
+                if (existingUser != null) {
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(context, "El usuario o correo ya están registrados", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    // Crear el nuevo usuario y guardarlo en la base de datos
+                    val newUser = Usuario(0, username = username, email = email, password = password)
+                    MyApp.database.usuarioDao().insert(newUser)
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(context, "Usuario registrado con éxito", Toast.LENGTH_SHORT).show()
 
-            // Verificar si el usuario o correo ya existen
-            if (users.any { it.username == username || it.email == email }) {
-                Toast.makeText(context, "El usuario o el correo ya están registrados", Toast.LENGTH_SHORT).show()
-            } else {
-                // Crear y guardar el nuevo usuario
-                val newUser = User(username, password, email)
-                users.add(newUser)
-                saveUsersToFile(requireContext(), users)
-                Toast.makeText(context, "Usuario registrado con éxito", Toast.LENGTH_SHORT).show()
-
-                // Iniciar MainActivity después del registro
-                val intent = Intent(context, MainActivity::class.java)
-                startActivity(intent)
-                requireActivity().finish()
-            }
-        }
-    }
-
-    // Función para leer usuarios del archivo JSON
-    private fun getUsersFromFile(context: Context): MutableList<User> {
-        val file = File(context.filesDir, "users.json")
-        if (!file.exists()) return mutableListOf()
-        val json = file.readText()
-        val type = object : TypeToken<MutableList<User>>() {}.type
-        return Gson().fromJson(json, type) ?: mutableListOf()
-    }
-
-    // Función para guardar usuarios en el archivo JSON
-    private fun saveUsersToFile(context: Context, users: List<User>) {
-        val file = File(context.filesDir, "users.json")
-        val json = Gson().toJson(users)
-        file.writeText(json)
-    }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment RegisterFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            RegisterFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+                        // Iniciar MainActivity
+                        val intent = Intent(context, MainActivity::class.java)
+                        startActivity(intent)
+                        requireActivity().finish()
+                    }
                 }
             }
+        }
     }
 }
