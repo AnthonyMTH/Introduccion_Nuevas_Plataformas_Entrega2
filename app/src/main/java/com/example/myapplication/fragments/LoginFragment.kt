@@ -1,5 +1,6 @@
 package com.example.myapplication.fragments
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -74,6 +75,14 @@ class LoginFragment : Fragment() {
                 val user = MyApp.database.usuarioDao().getUserByCredentials(username, password)
                 withContext(Dispatchers.Main) {
                     if (user != null) {
+
+                        // Guardar el nombre del usuario en SharedPreferences
+                        val sharedPreferences = context?.getSharedPreferences("UserSession", Context.MODE_PRIVATE)
+                        sharedPreferences?.edit()?.apply {
+                            putString("username", user.username) // Guardamos el nombre de usuario
+                            apply() // Guardamos los cambios
+                        }
+
                         Toast.makeText(context, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show()
                         val intent = Intent(context, MainActivity::class.java)
                         startActivity(intent)
@@ -87,3 +96,12 @@ class LoginFragment : Fragment() {
     }
 
 }
+/*
+// Al cerrar sesión:
+val sharedPreferences = context?.getSharedPreferences("UserSession", Context.MODE_PRIVATE)
+sharedPreferences?.edit()?.clear()?.apply() // Eliminar los datos guardados
+
+// Redirigir al usuario a la pantalla de inicio de sesión
+val intent = Intent(context, LoginActivity::class.java)
+startActivity(intent)
+requireActivity().finish()*/

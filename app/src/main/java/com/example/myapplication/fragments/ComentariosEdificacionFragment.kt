@@ -43,6 +43,10 @@ class ComentariosEdificacionFragment : Fragment() {
     private var imageURL: String? = null
     private val linearLayoutManager = LinearLayoutManager(context)
 
+    //datos de usuario
+    private lateinit var userName: TextView
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         copyJsonToInternalStorage()
@@ -63,6 +67,13 @@ class ComentariosEdificacionFragment : Fragment() {
         val backButton = view.findViewById<ImageButton>(R.id.backButton)
         val saveCommentButton = view.findViewById<Button>(R.id.btnEnviarComentario)
 
+        // Inicializa el TextView
+        userName = view.findViewById(R.id.userName)
+        // Recuperar el nombre del usuario desde SharedPreferences
+        val sharedPreferences = activity?.getSharedPreferences("UserSession", Context.MODE_PRIVATE)
+        val username = sharedPreferences?.getString("username", "Invitado") // Valor por defecto si no existe
+        userName.text = username
+
         nameTextView.text = name
         backButton.setOnClickListener {
             activity?.supportFragmentManager?.popBackStack()
@@ -77,6 +88,7 @@ class ComentariosEdificacionFragment : Fragment() {
 
 
 
+
         saveCommentButton.setOnClickListener {
             val commentEditText = view.findViewById<EditText>(R.id.commentEditText)
 
@@ -85,7 +97,7 @@ class ComentariosEdificacionFragment : Fragment() {
                 val currentDate = dateFormat.format(Date())
 
                 // Crea el nuevo comentario
-                val newComment = Comment(author = "Me", comment = commentEditText.text.toString(), date = currentDate)
+                val newComment = Comment(author = username.toString(), comment = commentEditText.text.toString(), date = currentDate)
 
                 // Añade el comentario a la lista de comentarios y actualiza el adapter
                 comentarios.add(0, newComment)

@@ -64,7 +64,7 @@ class EdificioMapFragment : Fragment() {
                 edificioView?.setAmbientes(ambientes)
             }
         } else {
-            mensajeTextView.text = "No se ha cargado un mapa para esta edificación"
+            mensajeTextView.text = "No se ha cargado un plano para esta edificación"
         }
 
         val btnVolver = view.findViewById<Button>(R.id.btn_volver)

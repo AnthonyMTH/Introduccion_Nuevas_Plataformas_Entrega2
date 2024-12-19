@@ -39,6 +39,9 @@ class EdificacionDetailFragment : Fragment() {
     private var isPaused = false
     private var isPlaying = false
 
+    //datos de usuario
+    private lateinit var userName: TextView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -67,6 +70,13 @@ class EdificacionDetailFragment : Fragment() {
 
         nameTextView.text = name
         descriptionTextView.text = description
+
+        // Inicializa el TextView
+        userName = view.findViewById(R.id.userName)
+        // Recuperar el nombre del usuario desde SharedPreferences
+        val sharedPreferences = activity?.getSharedPreferences("UserSession", Context.MODE_PRIVATE)
+        val username = sharedPreferences?.getString("username", "Invitado") // Valor por defecto si no existe
+        userName.text = username
 
         backButton.setOnClickListener {
             activity?.supportFragmentManager?.popBackStack()

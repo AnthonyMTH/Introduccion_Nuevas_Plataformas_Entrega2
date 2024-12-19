@@ -1,12 +1,24 @@
 package com.example.myapplication.fragments
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
+import com.example.myapplication.MainActivity
+import com.example.myapplication.MyApp
 import com.example.myapplication.R
+import com.example.myapplication.data.database.AppDatabase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -22,22 +34,27 @@ class PerfilFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-
+    private lateinit var db: AppDatabase
+    private lateinit var tvUsername: TextView
+    private lateinit var tvEmail: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_perfil, container, false)
-        val userName: TextView = view.findViewById(R.id.userName)
+        tvUsername = view.findViewById(R.id.userName)
         val userFullInfo: TextView = view.findViewById(R.id.userFullInfo)
-        val userEmail: TextView = view.findViewById(R.id.userEmail)
+        tvEmail = view.findViewById(R.id.userEmail)
 
         val numPlacesVisited:TextView = view.findViewById(R.id.numPlacesVisited)
 
-        userName.text = "Gabriel"
-        userFullInfo.text = "Gabriel Antony\n21 años\nDe Arequipa, Perú"
-        userEmail.text = "gabriel@gmail.com"
+        // Recuperar el nombre del usuario desde SharedPreferences
+        val sharedPreferences = activity?.getSharedPreferences("UserSession", Context.MODE_PRIVATE)
+        val username = sharedPreferences?.getString("username", "Invitado") // Valor por defecto si no existe
+
+        rellenarInfoUsuario(username.toString());
+        userFullInfo.text = username+"\n21 años\nDe Arequipa, Perú"
         numPlacesVisited.text = "23 lugares visitados"
 
 
@@ -45,5 +62,22 @@ class PerfilFragment : Fragment() {
         return view
     }
 
+    private fun rellenarInfoUsuario(username: String) {
+        lifecycleScope.launch(Dispatchers.IO) {
+            val usuario = MyApp.database.usuarioDao().getUsuarioByUsername(username)
 
+            withContext(Dispatchers.Main) {
+                if (usuario != null) {
+                    tvUsername.text = "${usuario.username}"
+                    tvEmail.text = "${usuario.email}"
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        "Usuario no encontrado",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
+    }
 }

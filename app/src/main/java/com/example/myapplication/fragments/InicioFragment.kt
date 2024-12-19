@@ -1,5 +1,6 @@
 package com.example.myapplication.fragments
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -32,8 +33,12 @@ class InicioFragment : Fragment() {
         val btnIrAlMapa: Button = view.findViewById(R.id.btnIrAlMapa)
         val tvSaludo: TextView = view.findViewById(R.id.tvSaludo)
 
+        // Recuperar el nombre del usuario desde SharedPreferences
+        val sharedPreferences = activity?.getSharedPreferences("UserSession", Context.MODE_PRIVATE)
+        val username = sharedPreferences?.getString("username", "Invitado") // Valor por defecto si no existe
+
         // Mensaje de saludo personalizado
-        tvSaludo.text = "¡Hola Gabriel!"
+        tvSaludo.text = "¡Hola " + username.toString() + "!"
 
         // Acción para el botón de explorar edificaciones
         btnExplorarEdificaciones.setOnClickListener {
