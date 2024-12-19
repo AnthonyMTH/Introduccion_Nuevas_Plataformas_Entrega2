@@ -84,6 +84,12 @@ class RegisterFragment : Fragment() {
                     withContext(Dispatchers.Main) {
                         Toast.makeText(context, "Usuario registrado con éxito", Toast.LENGTH_SHORT).show()
 
+                        // Guardar el nombre del usuario en SharedPreferences
+                        val sharedPreferences = context?.getSharedPreferences("UserSession", Context.MODE_PRIVATE)
+                        sharedPreferences?.edit()?.apply {
+                            putString("username", newUser.username) // Guardamos el nombre de usuario
+                            apply() // Guardamos los cambios
+                        }
                         // Iniciar MainActivity
                         val intent = Intent(context, MainActivity::class.java)
                         startActivity(intent)
